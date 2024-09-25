@@ -64,3 +64,9 @@ class QuestsDBHandler(DBHandler):
         self._conn.execute("DELETE FROM quests WHERE id = {quest_id}".format(quest_id = quest_id))
         self._conn.commit()
         self._close_connection()
+    
+    def get_entry_by_name(self , quest_name : str) -> list:
+        self._create_connection()
+        out = self._conn.execute("SELECT * FROM quests WHERE (name = '{quest_name}')".format(quest_name = quest_name)).fetchall()
+        self._close_connection()
+        return out
