@@ -36,7 +36,7 @@ class QuestsDBHandler(DBHandler):
         )
 
     def add_quest(self, quest_name : str, daily : bool = False, monthly : bool = False, necessary: bool = False, difficulty : int = 5):
-        self.create_connection()
+        self._create_connection()
         self._conn.execute("""
         INSERT INTO quests (id,name,daily,monthly,necessary,difficulty)
         VALUES ("{id}","{name}",'{daily}','{monthly}','{necessary}','{difficulty}');
