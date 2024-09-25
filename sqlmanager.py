@@ -51,11 +51,12 @@ class QuestsDBHandler(DBHandler):
             necessary = necessary,
             difficulty = difficulty
         ))
+        self._conn.commit()
         self._close_connection()
 
     def get_quest(self, quest_id : str) -> list:
         if (self._conn == None):
-            self.create_connection()
+            self._create_connection()
         n = self._conn.execute("""SELECT *
         FROM quests
         WHERE id = {quest_id} """.format(quest_id = quest_id)).fetchall()
@@ -64,10 +65,7 @@ class QuestsDBHandler(DBHandler):
 
     def delete_quest(self, quest_id : str):
         if (self._conn == None):
-            self.create_connection()
+            self._create_connection()
         self._conn.execute("DELETE FROM quests WHERE id = {quest_id}".format(quest_id = quest_id))
+        self._conn.commit()
         self._close_connection()
-
-
-quests = QuestsDBHandler()
-quests.create_quest_table()
