@@ -25,9 +25,7 @@ class DBHandler():
 
 class QuestsDBHandler(DBHandler):
     def create_quest_table(self):
-        if (self._conn == None):
-            self._create_connection()
-
+        self._create_connection()
         self.create_table("quests", 
             """id char[20],
             name char[20],
@@ -38,8 +36,7 @@ class QuestsDBHandler(DBHandler):
         )
 
     def add_quest(self, quest_name : str, daily : bool = False, monthly : bool = False, necessary: bool = False, difficulty : int = 5):
-        if (self._conn == None):
-            self.create_connection()
+        self.create_connection()
         self._conn.execute("""
         INSERT INTO quests (id,name,daily,monthly,necessary,difficulty)
         VALUES ("{id}","{name}",'{daily}','{monthly}','{necessary}','{difficulty}');
@@ -55,8 +52,7 @@ class QuestsDBHandler(DBHandler):
         self._close_connection()
 
     def get_quest(self, quest_id : str) -> list:
-        if (self._conn == None):
-            self._create_connection()
+        self._create_connection()
         n = self._conn.execute("""SELECT *
         FROM quests
         WHERE id = {quest_id} """.format(quest_id = quest_id)).fetchall()
@@ -64,8 +60,7 @@ class QuestsDBHandler(DBHandler):
         return n
 
     def delete_quest(self, quest_id : str):
-        if (self._conn == None):
-            self._create_connection()
+        self._create_connection()
         self._conn.execute("DELETE FROM quests WHERE id = {quest_id}".format(quest_id = quest_id))
         self._conn.commit()
         self._close_connection()
